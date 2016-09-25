@@ -1,0 +1,26 @@
+{
+  "name": "eloquentjs",
+  "version": "0.0.1-beta",
+  "description": "An active record like approach to consuming an API, inspired by Laravel's Eloquent",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/megawubs/eloquentjs.git"
+  },
+  "keywords": [
+    "Eloquent",
+    "API"
+  ],
+  "author": "MegaWubs",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/megawubs/eloquentjs/issues"
+  },
+  "homepage": "https://github.com/megawubs/eloquentjs#readme"
+}
