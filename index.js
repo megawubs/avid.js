@@ -1,1 +1,1 @@
-export * from './src/eloquent';
+export * from './source/eloquent';

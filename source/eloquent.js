@@ -55,11 +55,23 @@ import {BelongsTo} from "./relations/belongsTo";
  */
 export class Eloquent {
 
+  /**
+   * Gives Eloquentjs the ability to use the correct versioned url.
+   * This will result in the following uri: '/api/v1'
+   * @returns {string}
+   */
+
   get version() {
-    return null;
+    return 'v1';
   }
 
   constructor() {
+    /**
+     * First we are setting up the common properties like the name of the constructor and
+     * the path for the resource.
+     *
+     * Afterwards a proxy of this object is returned.
+     */
     this.initializeProperties();
     return this.proxify();
   }
@@ -71,20 +83,37 @@ export class Eloquent {
     this.properties = {};
   }
 
+  /**
+   * Fetch all items from the resource.
+   *
+   * @returns {*}
+   */
   static all() {
     var model = new this;
     let api = new Api(model.resource);
     return api.all().then(response => map(model, response));
   }
 
+  /**
+   * Find as specific model by its id
+   * @param id
+   * @returns {*}
+   */
   static find(id) {
     var model = new this;
     let api = new Api(model.resource);
     return api.find(id).then(response => map(model, response));
   }
 
+  /**
+   * Save or update an existing or new model
+   * @returns {*}
+   */
   save() {
-    var self = new ModelProxy(this, {});
+    /**
+     * When we do `var model = new Model();` it
+     */
+    var self = this;
     let api = new Api(self.resource);
 
     if (self.hasChanged === false) return Promise.resolve(self);
