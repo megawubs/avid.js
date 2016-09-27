@@ -1,5 +1,5 @@
 import {expect, assert} from 'chai';
-import {Eloquent} from "../src/eloquent";
+import {Eloquent} from "../source/eloquent";
 
 export class User extends Eloquent {
 

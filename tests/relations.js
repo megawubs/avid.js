@@ -1,5 +1,5 @@
 import {expect, assert} from 'chai';
-import {HasMany} from '../src/relations/hasMany';
+import {HasMany} from '../source/relations/hasMany';
 import {User, Home} from './model'
 
 

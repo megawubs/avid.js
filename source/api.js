@@ -1,38 +1,55 @@
+/**
+ * Communication layer for the api
+ */
 export class Api {
+  /**
+   * The api needs the name of the resource model to get
+   * so that it can build the uri required to reach it
+   * @param resource
+   */
   constructor(resource) {
-    this.resource = '/api/' + resource;
+    this.resource = ['/api', resource].join('/');
   }
 
-  toJson(response) {
+  getJson(response) {
     return response['data'];
   }
 
   all() {
-    return Vue.http.get(this.resource)
-      .then(this.toJson);
+    return Vue.http
+      .get(this.uri())
+      .then(this.getJson);
   }
 
   find(id) {
-    return Vue.http.get(this.resource + '/' + id)
-      .then(this.toJson);
+    return Vue.http
+      .get(this.uri(id))
+      .then(this.getJson);
   }
 
   update(model) {
-    var self = this;
-    return Vue.http.put(this.resource + '/' + model.id, model)
-      .then(self.toJson)
-      .catch(self.toJson);
+    return Vue.http
+      .put(this.uri(model.id), model)
+      .then(this.getJson)
+      .catch(this.getJson);
   }
 
   create(model) {
-    var self = this;
-    return Vue.http.post(this.resource, model)
-      .then(self.toJson);
+    return Vue.http
+      .post(this.uri(), model)
+      .then(this.getJson);
   }
 
   relation(model, relation, resource) {
-    this.resource = [this.resource, model.id, resource].join('/');
-    if (model.id === undefined) return Promise.reject('Unable to find relation, modelProxy is not yet saved.');
-    return this.all();
+    if (model.id === undefined) return Promise.reject('Unable to find relation, model is not yet saved.');
+    var api = new Api(this.uri(this.resource, model.id, resource));
+    return api.all();
+  }
+
+  uri(...parts) {
+    parts.splice(0, 0, this.resource);
+    return parts.join('/');
   }
 }
+
+
