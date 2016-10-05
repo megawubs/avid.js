@@ -5,11 +5,11 @@ import {User, Home} from './model'
 
 describe('Relation test', () => {
   it('Can access relation by property', () => {
-    return User.find(1).then(user => {
-      return user.homes.then(homes => {
+    return User.find(1)
+      .then(user => user.homes)
+      .then(homes => {
         assert.instanceOf(homes, Array);
       });
-    });
   });
   it('relation prorerty returns relation object', () => {
     return User.find(1).then(user => {

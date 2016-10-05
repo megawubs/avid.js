@@ -9,7 +9,8 @@ export class Api {
    * @param resource
    */
   constructor(base, resource) {
-    this.resource = [base, 'api', resource].join('/');
+    let url = (typeof base === 'undefined' || base === null) ? ['api', resource] : [base, resource];
+    this.resource = url.join('/');
   }
 
   getJson(response) {
@@ -43,7 +44,7 @@ export class Api {
 
   relation(model, relation, resource) {
     if (model.id === undefined) return Promise.reject('Unable to find relation, model is not yet saved.');
-    var api = new Api(this.uri(this.resource, model.id, resource));
+    var api = new Api(this.resource, model.id + '/' + resource);
     return api.all();
   }
 
