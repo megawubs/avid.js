@@ -53,6 +53,10 @@ import {BelongsTo} from "./relations/belongsTo";
  *    return user.save();
  *  }).then(updatedUser => console.log(updatedUser.name)); //jane
  */
+var EloquentjsConfig = {
+  baseUrl: null,
+  version: 'v1'
+};
 export class Eloquent {
 
   /**
@@ -61,11 +65,27 @@ export class Eloquent {
    * @returns {string}
    */
 
-  get version() {
-    return 'v1';
+  static get version() {
+    return EloquentjsConfig.version;
+  }
+
+  //noinspection JSAnnotator
+  static set version(version) {
+    EloquentjsConfig.version = version;
+    return true;
+  }
+
+  static set baseUrl(url) {
+    EloquentjsConfig.baseUrl = url;
+    return true;
+  }
+
+  static get baseUrl() {
+    return EloquentjsConfig.baseUrl;
   }
 
   constructor() {
+
     /**
      * First we are setting up the common properties like the name of the constructor and
      * the path for the resource.
@@ -90,7 +110,7 @@ export class Eloquent {
    */
   static all() {
     var model = new this;
-    let api = new Api(model.resource);
+    let api = new Api(this.baseUrl, model.resource);
     return api.all().then(response => map(model, response));
   }
 
@@ -101,7 +121,7 @@ export class Eloquent {
    */
   static find(id) {
     var model = new this;
-    let api = new Api(model.resource);
+    let api = new Api(this.baseUrl, model.resource);
     return api.find(id).then(response => map(model, response));
   }
 
@@ -112,7 +132,7 @@ export class Eloquent {
   save() {
 
     var self = this;
-    let api = new Api(self.resource);
+    let api = new Api(self.baseUrl, self.resource);
 
     /**
      * Resolve directly when there are no changes to the model, saving us

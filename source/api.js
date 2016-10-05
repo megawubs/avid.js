@@ -5,10 +5,11 @@ export class Api {
   /**
    * The api needs the name of the resource model to get
    * so that it can build the uri required to reach it
+   * @param base
    * @param resource
    */
-  constructor(resource) {
-    this.resource = ['/api', resource].join('/');
+  constructor(base, resource) {
+    this.resource = [base, 'api', resource].join('/');
   }
 
   getJson(response) {

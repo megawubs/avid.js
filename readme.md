@@ -2,6 +2,18 @@ Eloquentjs
 ==========
 An active record like approach to consuming an API, inspired by Laravel's Eloquent
 
+### Installation
+For now, this module only works inside a laravel installation.
+
+```Shell
+$ npm install @megawubs/eloquentjs --save
+```
+
+### Usage
+
+This wrapper expects a certain api design. The name of the model you create is automatically mapped to an api endpoint.
+Let's say we have a `User` model, by default Eloquentjs will generate a resource uri of `/api/v1/user`. When you 
+
 ```JavaScript
 export class User extends Eloquent{
     get version(){

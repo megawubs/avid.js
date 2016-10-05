@@ -8,7 +8,7 @@ export class HasMany {
     self.relation = new relation;
     self.resource = resource;
     self.parent = parent;
-    self.api = new Api(self.parent.resource);
+    self.api = new Api(self.parent.baseUrl, self.parent.resource);
   }
 
   then(callback) {

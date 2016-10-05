@@ -22,6 +22,13 @@ export class Home extends Eloquent {
   }
 }
 
+export class GroupType extends Eloquent {
+
+  get version() {
+    return 'v1'
+  }
+}
+
 describe('Model Test', () => {
   it('should load all items from modelProxy with Model.all()', () => {
     return User.all();
@@ -46,6 +53,16 @@ describe('Model Test', () => {
     }).then(user => {
       assert.equal(user.id, 1);
       assert.equal(user.name, 'Willem');
+    });
+  });
+
+
+  it('should use a differen url for models when it is set', () => {
+    Eloquent.baseUrl = 'http://blaat.foo';
+    assert.equal(User.baseUrl, 'http://blaat.foo');
+    return User.find(1).catch(error => {
+      Eloquent.baseUrl = null; //reset
+
     });
   });
 });

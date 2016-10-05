@@ -8,12 +8,14 @@ export function map(model, response) {
   return Promise.resolve(resolved);
 }
 
-function mapResponseToModel(response, model) {
+function mapResponseToModel(response, bluePrint) {
+  var model = new bluePrint;
   for (var key in response) {
     if (response.hasOwnProperty(key)) {
       model.properties[key] = response[key];
     }
   }
+  console.log(model.id);
   return model;
 }
 
