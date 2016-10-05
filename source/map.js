@@ -9,13 +9,12 @@ export function map(model, response) {
 }
 
 function mapResponseToModel(response, bluePrint) {
-  var model = new bluePrint;
+  var model = (typeof bluePrint === 'function') ? new bluePrint : bluePrint;
   for (var key in response) {
     if (response.hasOwnProperty(key)) {
       model.properties[key] = response[key];
     }
   }
-  console.log(model.id);
   return model;
 }
 

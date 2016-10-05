@@ -111,7 +111,7 @@ export class Eloquent {
   static all() {
     var model = new this;
     let api = new Api(this.baseUrl, model.resource);
-    return api.all().then(response => map(model, response));
+    return api.all().then(response => map(this, response));
   }
 
   /**
@@ -122,7 +122,7 @@ export class Eloquent {
   static find(id) {
     var model = new this;
     let api = new Api(this.baseUrl, model.resource);
-    return api.find(id).then(response => map(model, response));
+    return api.find(id).then(response => map(this, response));
   }
 
   /**
@@ -153,15 +153,15 @@ export class Eloquent {
        * knows the model needs to be created, not updated.
        */
       return api.create(self.properties)
-        .then(response => map(self, response))
-        .catch(error => console.log("Failed saving modelProxy due to'" + error.statusText));
+        .then(response => map(this, response))
+        .catch(error => console.log("Failed saving modelProxy due to'", error));
     }
 
     /**
      * When there is an id, preform an update of the model
      */
     return api.update(self.properties)
-      .then(response => map(self, response))
+      .then(response => map(this, response))
       .catch(error => console.log(error));
   }
 

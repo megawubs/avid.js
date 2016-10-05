@@ -43,7 +43,9 @@ describe('Model Test', () => {
     user.name = 'Jan';
     user.email = 'jan@jan.com';
     user.password = 'secret';
-    return user.save().then(user => expect(user.id).to.be.a('number'));
+    return user.save().then(user => {
+      expect(user.id).to.be.a('number')
+    });
   });
 
   it('should edit a model when model exists', () => {
