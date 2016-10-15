@@ -22,11 +22,12 @@ export class ModelProxy {
         if (self.canAccessProperty(name)) return target[name];
         if (name === 'proxify') return receiver;
 
-        return target.properties[name];
+        return target[name];
       },
       set: function (target, name, value) {
         target.hasChanged = true;
-        target.properties[name] = value;
+        target['properties'][name] = value;
+        target[name] = value;
         return true;
       }
     });

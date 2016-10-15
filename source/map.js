@@ -13,6 +13,7 @@ function mapResponseToModel(response, bluePrint) {
   for (var key in response) {
     if (response.hasOwnProperty(key)) {
       model.properties[key] = response[key];
+      model[key] = response[key];
     }
   }
   return model;
