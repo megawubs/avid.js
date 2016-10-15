@@ -33,7 +33,6 @@ export class Api {
     return Vue.http
       .put(this.uri(model.id), model)
       .then(this.getJson)
-      .catch(this.getJson);
   }
 
   create(model) {

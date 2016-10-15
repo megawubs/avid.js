@@ -1,7 +1,7 @@
 import {expect, assert} from 'chai';
 import {HasMany} from '../source/relations/hasMany';
-import {User, Home} from './model'
-
+import {User} from "./models/user";
+import {Home} from "./models/home";
 
 describe('Relation test', () => {
   it('Can access relation by property', () => {

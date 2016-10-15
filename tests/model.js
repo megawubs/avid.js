@@ -1,35 +1,14 @@
 import {expect, assert} from 'chai';
 import {Eloquent} from "../source/eloquent";
+import {User} from "./models/user";
 
-export class User extends Eloquent {
 
-  get version() {
-    return 'v1';
-  }
-
-  homes() {
-    return this.hasMany(Home, 'homes');
-  }
-}
-
-export class Home extends Eloquent {
-  get version() {
-    return 'v1'
-  }
-
-  user() {
-    return this.belongsTo(User);
-  }
-}
-
-export class GroupType extends Eloquent {
-
-  get version() {
-    return 'v1'
-  }
-}
+beforeEach(function () {
+  Eloquent.baseUrl = null;
+});
 
 describe('Model Test', () => {
+
   it('should load all items from modelProxy with Model.all()', () => {
     return User.all();
   });
@@ -65,6 +44,17 @@ describe('Model Test', () => {
     return User.find(1).catch(error => {
       Eloquent.baseUrl = null; //reset
 
+    });
+  });
+
+  it('should restore model when a update goes wrong', () => {
+    return User.find(1).then(user => {
+      var oldName = user.name;
+      user.baseUrl = 'http://blaat.foo';
+      user.name = 'fooo2';
+      return user.save().then(() => {
+        assert.equal(user.name, oldName);
+      });
     });
   });
 });

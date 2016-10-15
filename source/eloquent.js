@@ -101,6 +101,7 @@ export class Eloquent {
     this.resource = this.constructorName;
     this.resource = (this.version === null) ? this.resource : this.version + '/' + this.resource;
     this.properties = {};
+    this.originals = {};
   }
 
   /**
@@ -162,7 +163,7 @@ export class Eloquent {
      */
     return api.update(self.properties)
       .then(response => map(this, response))
-      .catch(error => console.log(error));
+      .catch(error =>map(self, self.originals));
   }
 
   /**

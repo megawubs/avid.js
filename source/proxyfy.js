@@ -1,11 +1,11 @@
 export class ModelProxy {
 
   static get accessibleMethods() {
-    return ['all', 'find', 'save'];
+    return ['all', 'find', 'save', 'restore'];
   }
 
   static get accessibleProperties() {
-    return ['resource', 'properties', 'constructorName', 'hasChanged'];
+    return ['resource', 'properties', 'constructorName', 'hasChanged', 'originals'];
   }
 
   static get accessible() {
@@ -34,12 +34,10 @@ export class ModelProxy {
   }
 
   canAccessProperty(name) {
-    var self = this;
     return ModelProxy.accessible.indexOf(name) >= 0;
   }
 
   isRelation(target, name) {
-    var self = this;
     return typeof target[name] === 'function' && ModelProxy.accessibleMethods.indexOf(name) === -1;
   }
 }
