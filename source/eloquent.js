@@ -107,7 +107,7 @@ export class Eloquent {
   }
 
   initializeProperties() {
-    this.constructorName = this.constructor.name.toLowerCase();
+    this.constructorName = this.constructor.name;
     this.resource = (this.version === null) ? this.constructorName : this.version + '/' + this.constructorName;
     this.properties = {};
     this.originals = {};
@@ -121,7 +121,7 @@ export class Eloquent {
   static all() {
     var model = new this;
     if (Eloquent.storage.hasOwnProperty(model.constructorName)) {
-      return Eloquent.storage[model.constructorName];
+      return map(this, Eloquent.storage[model.constructorName]);
     }
     let api = new Api(Eloquent.baseUrl, model.resource);
     return api.all().then(response => map(this, response));
@@ -134,13 +134,15 @@ export class Eloquent {
    */
   static find(id) {
     var model = new this;
+    console.log(Eloquent.storage);
+    console.log(model.constructorName);
     if (Eloquent.storage.hasOwnProperty(model.constructorName)) {
-      console.log('storage???');
-      return Eloquent.storage[model.constructorName].then(models => {
-        console.log(models.filter(model => model.id === id));
-        let result = models.filter(model => model.id === id);
-        return (result.length === 1) ? result[0] : Promise.reject();
-      });
+      var items = Eloquent.storage[model.constructorName].filter(model => model.id === id);
+      return (items.length === 1) ? map(this, items[0]) : Promise.reject();
+      // return Eloquent.storage[model.constructorName].then(models => {
+      //   let result = models.filter(model => model.id === id);
+      //   return (result.length === 1) ? result[0] : Promise.reject();
+      // });
     }
     let api = new Api(Eloquent.baseUrl, model.resource);
     return api.find(id).then(response => map(this, response));
@@ -230,9 +232,11 @@ export class Eloquent {
     return new ModelProxy(this);
   }
 
-  static fill(raw) {
-    var model = new this;
-    Eloquent.storage[model.constructorName] = map(this, raw);
+  static fill() {
+    Object.keys(avidItems).forEach(modelName => {
+      Eloquent.storage[modelName] = avidItems[modelName];
+    });
+    console.log(Eloquent.storage);
   }
 }
 

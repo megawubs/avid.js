@@ -33,6 +33,7 @@ describe('Relation test', () => {
       return user.homes.add(home);
     }).then(home => {
       return user.homes.then(homes => {
+        console.log(home);
         assert.equal(homes[0].name, home.name);
         assert.equal(homes[0].user_id, user.id);
       });

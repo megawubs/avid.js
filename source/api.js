@@ -49,7 +49,7 @@ export class Api {
 
   uri(...parts) {
     parts.splice(0, 0, this.resource);
-    return parts.join('/');
+    return parts.join('/').toLowerCase();
   }
 }
 
