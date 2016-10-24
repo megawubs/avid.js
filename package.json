@@ -1,17 +1,33 @@
 {
   "name": "@megawubs/eloquentjs",
-  "version": "0.0.40-beta",
+  "version": "0.0.50-beta",
   "description": "An active record like approach to consuming an API, inspired by Laravel's Eloquent",
   "main": "index.js",
   "directories": {
     "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "tests": "webpack tests/**/*.js server/test-bundle.js && cp node_modules/mocha/mocha.js server/mocha.js && webpack tests/bootstrap.js server/bootstrap.js && cd server && php -S 127.0.0.1:8001 && open -a 'Google Chrome' 127.0.0.1:8001 && cd ../"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/megawubs/eloquentjs.git"
+  },
+  "dependencies": {
+    "vue": "^1.0.26",
+    "vue-resource": "^0.9.3"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "laravel-elixir": "^6.0.0-9",
+    "laravel-elixir-vue": "^0.1.4",
+    "laravel-elixir-webpack-official": "^1.0.2",
+    "lodash": "^4.14.0",
+    "vue": "^1.0.26",
+    "vue-resource": "^0.9.3",
+    "mocha": "^3.0.2",
+    "chai": "^3.5.0",
+    "webpack": "2.1.0-beta.22"
   },
   "keywords": [
     "Eloquent",

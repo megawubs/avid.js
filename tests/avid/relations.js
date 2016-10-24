@@ -1,7 +1,12 @@
 import {expect, assert} from 'chai';
-import {HasMany} from '../source/relations/hasMany';
+import {HasMany} from '../../source/relations/hasMany';
 import {User} from "./models/user";
 import {Home} from "./models/home";
+import {Eloquent} from "../../source/eloquent";
+
+beforeEach(function () {
+  Eloquent.baseUrl = 'http://localhost:8000/api';
+});
 
 describe('Relation test', () => {
   it('Can access relation by property', () => {

@@ -55,7 +55,8 @@ import {BelongsTo} from "./relations/belongsTo";
  */
 var EloquentjsConfig = {
   baseUrl: null,
-  version: 'v1'
+  version: 'v1',
+  storage: []
 };
 export class Eloquent {
 
@@ -84,6 +85,15 @@ export class Eloquent {
     return EloquentjsConfig.baseUrl;
   }
 
+  static set storage(value) {
+    EloquentjsConfig.storage = value;
+    return true;
+  }
+
+  static get storage() {
+    return EloquentjsConfig.storage
+  }
+
   constructor() {
 
     /**
@@ -98,8 +108,7 @@ export class Eloquent {
 
   initializeProperties() {
     this.constructorName = this.constructor.name.toLowerCase();
-    this.resource = this.constructorName;
-    this.resource = (this.version === null) ? this.resource : this.version + '/' + this.resource;
+    this.resource = (this.version === null) ? this.constructorName : this.version + '/' + this.constructorName;
     this.properties = {};
     this.originals = {};
   }
@@ -111,7 +120,10 @@ export class Eloquent {
    */
   static all() {
     var model = new this;
-    let api = new Api(this.baseUrl, model.resource);
+    if (Eloquent.storage.hasOwnProperty(model.constructorName)) {
+      return Eloquent.storage[model.constructorName];
+    }
+    let api = new Api(Eloquent.baseUrl, model.resource);
     return api.all().then(response => map(this, response));
   }
 
@@ -122,7 +134,15 @@ export class Eloquent {
    */
   static find(id) {
     var model = new this;
-    let api = new Api(this.baseUrl, model.resource);
+    if (Eloquent.storage.hasOwnProperty(model.constructorName)) {
+      console.log('storage???');
+      return Eloquent.storage[model.constructorName].then(models => {
+        console.log(models.filter(model => model.id === id));
+        let result = models.filter(model => model.id === id);
+        return (result.length === 1) ? result[0] : Promise.reject();
+      });
+    }
+    let api = new Api(Eloquent.baseUrl, model.resource);
     return api.find(id).then(response => map(this, response));
   }
 
@@ -133,7 +153,7 @@ export class Eloquent {
   save() {
 
     var self = this;
-    let api = new Api(self.baseUrl, self.resource);
+    let api = new Api(Eloquent.baseUrl, self.resource);
 
     /**
      * Resolve directly when there are no changes to the model, saving us
@@ -208,6 +228,11 @@ export class Eloquent {
    */
   proxify() {
     return new ModelProxy(this);
+  }
+
+  static fill(raw) {
+    var model = new this;
+    Eloquent.storage[model.constructorName] = map(this, raw);
   }
 }
 

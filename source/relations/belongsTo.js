@@ -1,9 +1,11 @@
 import {Api} from "../api";
+import {Eloquent} from "../eloquent";
+
 export class BelongsTo {
   constructor(parent, child) {
     this.child = child;
     this.parent = new parent;
-    this.api = new Api(self.parent.baseUrl, this.parent.resource);
+    this.api = new Api(Eloquent.baseUrl, this.parent.resource);
   }
 
   then(callback) {

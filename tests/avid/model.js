@@ -1,10 +1,9 @@
 import {expect, assert} from 'chai';
-import {Eloquent} from "../source/eloquent";
+import {Eloquent} from "../../source/eloquent";
 import {User} from "./models/user";
 
-
 beforeEach(function () {
-  Eloquent.baseUrl = null;
+  Eloquent.baseUrl = 'http://localhost:8000/api';
 });
 
 describe('Model Test', () => {
@@ -38,19 +37,17 @@ describe('Model Test', () => {
   });
 
 
-  it('should use a differen url for models when it is set', () => {
+  it('should use a different url for models when it is set', () => {
     Eloquent.baseUrl = 'http://blaat.foo';
     assert.equal(User.baseUrl, 'http://blaat.foo');
     return User.find(1).catch(error => {
-      Eloquent.baseUrl = null; //reset
-
     });
   });
 
   it('should restore model when a update goes wrong', () => {
     return User.find(1).then(user => {
       var oldName = user.name;
-      user.baseUrl = 'http://blaat.foo';
+      Eloquent.baseUrl = 'http://blaat.foo';
       user.name = 'fooo2';
       return user.save().then(() => {
         assert.equal(user.name, oldName);

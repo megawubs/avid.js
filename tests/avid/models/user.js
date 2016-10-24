@@ -1,4 +1,4 @@
-import {Eloquent} from "../../source/eloquent";
+import {Eloquent} from "../../../source/eloquent";
 import {Home} from "./home";
 
 export class User extends Eloquent {

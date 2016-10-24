@@ -1,5 +1,6 @@
 import {Api} from "../api";
 import {map} from "../map";
+import {Eloquent} from "../eloquent";
 
 export class HasMany {
 
@@ -8,7 +9,7 @@ export class HasMany {
     self.relation = relation;
     self.resource = resource;
     self.parent = parent;
-    self.api = new Api(self.parent.baseUrl, self.parent.resource);
+    self.api = new Api(Eloquent.baseUrl, self.parent.resource);
   }
 
   then(callback) {
@@ -28,6 +29,7 @@ export class HasMany {
     var self = this;
     var relation = [self.parent.constructorName, "id"].join('_');
     entity[relation] = self.parent.id;
+    console.log(entity);
     return entity.save();
   }
 }
