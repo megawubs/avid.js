@@ -1,6 +1,6 @@
 {
   "name": "@megawubs/avid",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "API consumption on fire, inspired by Laravel's Eloquent",
   "main": "index.js",
   "directories": {
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/megawubs/avid.git"
+    "url": "git+https://github.com/megawubs/avid.js.git"
   },
   "dependencies": {
     "vue": "^1.0.26",
