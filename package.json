@@ -1,6 +1,6 @@
 {
   "name": "@megawubs/avid",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "API consumption on fire, inspired by Laravel's Eloquent",
   "main": "index.js",
   "directories": {
@@ -11,22 +11,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/megawubs/eloquentjs.git"
+    "url": "git+https://github.com/megawubs/avid.git"
   },
   "dependencies": {
     "vue": "^1.0.26",
     "vue-resource": "^0.9.3"
   },
   "devDependencies": {
+    "chai": "^3.5.0",
     "gulp": "^3.9.1",
     "laravel-elixir": "^6.0.0-9",
     "laravel-elixir-vue": "^0.1.4",
     "laravel-elixir-webpack-official": "^1.0.2",
     "lodash": "^4.14.0",
+    "mocha": "^3.0.2",
     "vue": "^1.0.26",
     "vue-resource": "^0.9.3",
-    "mocha": "^3.0.2",
-    "chai": "^3.5.0",
     "webpack": "2.1.0-beta.22"
   },
   "keywords": [
