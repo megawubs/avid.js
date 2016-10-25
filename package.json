@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "tests": "webpack tests/**/*.js server/test-bundle.js && cp node_modules/mocha/mocha.js server/mocha.js && webpack tests/bootstrap.js server/bootstrap.js && cd server && php -S 127.0.0.1:8001 && open -a 'Google Chrome' 127.0.0.1:8001 && cd ../"
+    "tests": "cd tests/server && open http://localhost:8001 && php -S 127.0.0.1:8001"
   },
   "repository": {
     "type": "git",
