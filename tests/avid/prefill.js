@@ -7,7 +7,7 @@ beforeEach(function () {
   Eloquent.storage = {}
 });
 window.avidItems = {};
-describe('Prefill Test', () => {
+describe('Prefill', () => {
   it('should not make a http request', () => {
     avidItems["User"] = [{
       id: 1,

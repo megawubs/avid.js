@@ -8,14 +8,27 @@ beforeEach(function () {
   Eloquent.baseUrl = 'http://localhost:8000/api';
 });
 
-describe('Relation test', () => {
-  it('Can access relation by property', () => {
+describe('Relations', () => {
+  it('Can access hasMany relation by property', () => {
     return User.find(1)
       .then(user => user.homes)
       .then(homes => {
         assert.instanceOf(homes, Array);
       });
   });
+
+  it('can access belongsTo relation by property', () => {
+    var myHome = {};
+    return Home.find(1)
+      .then(home => {
+        myHome = home;
+        return home.user
+      })
+      .then(user => {
+        assert.equal(myHome.user_id, user.id);
+      })
+  });
+
   it('relation prorerty returns relation object', () => {
     return User.find(1).then(user => {
       assert.instanceOf(user.homes, HasMany);
@@ -41,7 +54,7 @@ describe('Relation test', () => {
   });
 
   it('can reverse a relation', () => {
-    let user_id = 3;
+    let user_id = 1;
     return Home.find(1).then(home => home.user)
       .then(user => {
         assert.equal(user.id, user_id);

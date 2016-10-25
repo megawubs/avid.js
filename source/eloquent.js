@@ -134,15 +134,9 @@ export class Eloquent {
    */
   static find(id) {
     var model = new this;
-    console.log(Eloquent.storage);
-    console.log(model.constructorName);
     if (Eloquent.storage.hasOwnProperty(model.constructorName)) {
       var items = Eloquent.storage[model.constructorName].filter(model => model.id === id);
       return (items.length === 1) ? map(this, items[0]) : Promise.reject();
-      // return Eloquent.storage[model.constructorName].then(models => {
-      //   let result = models.filter(model => model.id === id);
-      //   return (result.length === 1) ? result[0] : Promise.reject();
-      // });
     }
     let api = new Api(Eloquent.baseUrl, model.resource);
     return api.find(id).then(response => map(this, response));
@@ -185,7 +179,7 @@ export class Eloquent {
      */
     return api.update(self.properties)
       .then(response => map(this, response))
-      .catch(error =>map(self, self.originals));
+      .catch(error => self.reset());
   }
 
   /**
@@ -232,11 +226,20 @@ export class Eloquent {
     return new ModelProxy(this);
   }
 
+  reset() {
+    var self = this;
+    Object.keys(this.originals).forEach(key => {
+      if (typeof self[key] !== 'function') {
+        self[key] = self.originals[key];
+      }
+    });
+    return self;
+  }
+
   static fill() {
     Object.keys(avidItems).forEach(modelName => {
       Eloquent.storage[modelName] = avidItems[modelName];
     });
-    console.log(Eloquent.storage);
   }
 }
 

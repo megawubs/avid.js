@@ -14,12 +14,10 @@ export class HasMany {
 
   then(callback) {
     var self = this;
-    console.log(self.parent.properties);
-    if (self.parent.properties.hasOwnProperty(self.resource)) {
-      console.log('keeping it in the family');
-      return Promise.resolve(map(self.relation, self.parent.properties[self.resource]))
+    if (self.parent.properties.hasOwnProperty(self.resource.toLowerCase())) {
+      return map(self.relation, self.parent.properties[self.resource.toLowerCase()]).then(callback);
     }
-    console.log('fetching from api');
+
     return self.api.relation(self.parent, self.relation, self.resource)
       .then(response => map(self.relation, response))
       .then(callback);

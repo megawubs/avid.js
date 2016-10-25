@@ -1,7 +1,7 @@
 export class ModelProxy {
 
   static get accessibleMethods() {
-    return ['all', 'find', 'save', 'restore', 'baseUrl'];
+    return ['all', 'find', 'save', 'restore', 'baseUrl', 'reset'];
   }
 
   static get accessibleProperties() {
@@ -28,6 +28,7 @@ export class ModelProxy {
         target.hasChanged = true;
         target['properties'][name] = value;
         target[name] = value;
+
         return true;
       }
     });
@@ -41,7 +42,3 @@ export class ModelProxy {
     return typeof target[name] === 'function' && ModelProxy.accessibleMethods.indexOf(name) === -1;
   }
 }
-
-// export function modelProxy(model) {
-//   return new ModelProxy(model);
-// }

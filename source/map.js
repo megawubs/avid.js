@@ -4,7 +4,7 @@ export function map(model, response) {
   var resolved = (isArray(response))
     ? mapResponseToMultiple(response, model)
     : mapResponseToModel(response, model);
-
+  console.log(resolved);
   return Promise.resolve(resolved);
 }
 
@@ -14,7 +14,12 @@ function mapResponseToModel(response, bluePrint) {
     if (response.hasOwnProperty(key)) {
       model.properties[key] = response[key];
       model.originals[key] = response[key];
-      model[key] = response[key];
+      //make sure relations aren't set directly on
+      //the model.
+      if (typeof model[key] === 'undefined') {
+        model[key] = response[key];
+      }
+
     }
   }
   return model;

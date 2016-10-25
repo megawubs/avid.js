@@ -6,7 +6,7 @@ beforeEach(function () {
   Eloquent.baseUrl = 'http://localhost:8000/api';
 });
 
-describe('Model Test', () => {
+describe('Model', () => {
 
   it('should load all items from modelProxy with Model.all()', () => {
     return User.all();
