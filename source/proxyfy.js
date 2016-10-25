@@ -5,7 +5,7 @@ export class ModelProxy {
   }
 
   static get accessibleProperties() {
-    return ['resource', 'properties', 'constructorName', 'hasChanged', 'originals'];
+    return ['resource', 'properties', 'constructorName', 'hasChanged', 'originals', 'prefix'];
   }
 
   static get accessible() {
