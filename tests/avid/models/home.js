@@ -2,7 +2,7 @@ import {Avid} from "../../../source/avid";
 import {User} from "./user";
 
 export class Home extends Avid {
-  get version() {
+  get _version() {
     return 'v1'
   }
 

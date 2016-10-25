@@ -1,6 +1,5 @@
 import {Api} from "../api";
 import {map} from "../map";
-import {Avid} from "../avid";
 
 export class HasMany {
 
@@ -9,7 +8,7 @@ export class HasMany {
     self.relation = relation;
     self.resource = resource;
     self.parent = parent;
-    self.api = new Api(self.parent.resource, self.parent.prefix);
+    self.api = new Api(self.parent._resource);
   }
 
   then(callback) {
@@ -25,7 +24,7 @@ export class HasMany {
 
   add(entity) {
     var self = this;
-    var relation = [self.parent.constructorName.toLowerCase(), "id"].join('_');
+    var relation = [self.parent._name, "id"].join('_');
     entity[relation] = self.parent.id;
     return entity.save();
   }

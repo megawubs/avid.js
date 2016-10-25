@@ -3,7 +3,7 @@ import {Home} from "./home";
 
 export class User extends Avid {
 
-  get version() {
+  get _version() {
     return 'v1';
   }
 

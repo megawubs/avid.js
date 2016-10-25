@@ -12,7 +12,7 @@ import {BelongsTo} from "./relations/belongsTo";
  * Example:
  *
  * export class User extends Avid{
- *    get version(){
+ *    get _version(){
  *      return 'v1'
  *    }
  *
@@ -22,7 +22,7 @@ import {BelongsTo} from "./relations/belongsTo";
  * }
  *
  * export class Post extends Avid{
- *   get version(){
+ *   get _version(){
  *    return 'v1'
  *   }
  *
@@ -98,7 +98,7 @@ export class Avid {
    * usage:
    *  Avid.baseUrl = 'http://foo.com'
    *  class User extends Avid{
-   *    get prefix(){
+   *    get _prefix(){
    *      return 'secret'
    *    }
    *  }
@@ -107,7 +107,7 @@ export class Avid {
    *
    * @returns {string}
    */
-  get prefix() {
+  get _prefix() {
     return 'api';
   }
 
@@ -115,8 +115,16 @@ export class Avid {
    * Gives Avid models the ability to use the correct versioned url.
    * This will result in the following uri: '/api/v1'
    */
-  get version() {
+  get _version() {
     return null
+  }
+
+  get _name() {
+    return this.constructor.name.toLowerCase();
+  }
+
+  get _resource() {
+    return ((this._version === null) ? [this._prefix, this._name] : [this._prefix, this._version, this._name]).join('/');
   }
 
   constructor() {
@@ -134,8 +142,6 @@ export class Avid {
   }
 
   initializeProperties() {
-    this.constructorName = this.constructor.name;
-    this.resource = ((this.version === null) ? this.constructorName : this.version + '/' + this.constructorName).toLowerCase();
     this.properties = {};
     this.originals = {};
   }
@@ -147,10 +153,10 @@ export class Avid {
    */
   static all() {
     var model = new this;
-    if (Avid.storage.hasOwnProperty(model.constructorName)) {
-      return map(this, Avid.storage[model.constructorName]);
+    if (Avid.storage.hasOwnProperty(model._name)) {
+      return map(this, Avid.storage[model._name]);
     }
-    let api = new Api(model.prefix, model.resource);
+    let api = new Api(model._resource);
     return api.all().then(response => map(this, response));
   }
 
@@ -161,11 +167,11 @@ export class Avid {
    */
   static find(id) {
     var model = new this;
-    if (Avid.storage.hasOwnProperty(model.constructorName)) {
-      var items = Avid.storage[model.constructorName].filter(model => model.id === id);
+    if (Avid.storage.hasOwnProperty(model._name)) {
+      var items = Avid.storage[model._name].filter(model => model.id === id);
       return (items.length === 1) ? map(this, items[0]) : Promise.reject();
     }
-    let api = new Api(model.prefix, model.resource);
+    let api = new Api(model._resource);
     return api.find(id).then(response => map(this, response));
   }
 
@@ -176,7 +182,7 @@ export class Avid {
   save() {
 
     var self = this;
-    let api = new Api(self.prefix, self.resource);
+    let api = new Api(self._resource);
 
     /**
      * Resolve directly when there are no changes to the model, saving us
