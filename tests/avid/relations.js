@@ -5,11 +5,11 @@ import {Home} from "./models/home";
 import {Avid} from "../../source/avid";
 
 beforeEach(function () {
-  Avid.baseUrl = 'http://localhost:8000/api';
+  Avid.baseUrl = 'http://localhost:8000';
 });
 
-describe('Relations', () => {
-  it('Can access hasMany relation by property', () => {
+describe('Relations ', () => {
+  it('Can access hasMany relation by property ', () => {
     return User.find(1)
       .then(user => user.homes)
       .then(homes => {
@@ -17,7 +17,7 @@ describe('Relations', () => {
       });
   });
 
-  it('can access belongsTo relation by property', () => {
+  it('can access belongsTo relation by property ', () => {
     var myHome = {};
     return Home.find(1)
       .then(home => {
@@ -29,13 +29,13 @@ describe('Relations', () => {
       })
   });
 
-  it('relation prorerty returns relation object', () => {
+  it('relation prorerty returns relation object ', () => {
     return User.find(1).then(user => {
       assert.instanceOf(user.homes, HasMany);
     });
   });
 
-  it('can add a relation', () => {
+  it('can add a relation ', () => {
     var user;
     var home = new Home();
 
@@ -51,7 +51,7 @@ describe('Relations', () => {
     });
   });
 
-  it('can reverse a relation', () => {
+  it('can reverse a relation ', () => {
     let user_id = 1;
     return Home.find(1).then(home => home.user)
       .then(user => {
@@ -59,7 +59,7 @@ describe('Relations', () => {
       });
   });
 
-  it('can handle eager loading', () => {
+  it('can handle eager loading ', () => {
     return User.find(1).then(user => {
       return user.homes.then(homes => {
         assert.instanceOf(homes, Array);

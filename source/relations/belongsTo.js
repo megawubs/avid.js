@@ -6,7 +6,7 @@ export class BelongsTo {
   constructor(parent, child) {
     this.child = child;
     this.parent = new parent;
-    this.api = new Api(Avid.baseUrl, this.parent.resource);
+    this.api = new Api(this.parent.resource, this.parent.prefix);
 
     this.relationAccessor = this.parent.constructorName.toLowerCase();
     if (this.child.properties.hasOwnProperty(this.relationAccessor)) {

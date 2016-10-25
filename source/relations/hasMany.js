@@ -9,7 +9,7 @@ export class HasMany {
     self.relation = relation;
     self.resource = resource;
     self.parent = parent;
-    self.api = new Api(Avid.baseUrl, self.parent.resource);
+    self.api = new Api(self.parent.resource, self.parent.prefix);
   }
 
   then(callback) {

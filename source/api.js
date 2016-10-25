@@ -1,3 +1,4 @@
+import {Avid} from "./avid";
 /**
  * Communication layer for the api
  */
@@ -5,12 +6,13 @@ export class Api {
   /**
    * The api needs the name of the resource model to get
    * so that it can build the uri required to reach it
-   * @param base
    * @param resource
+   * @param prefix
    */
-  constructor(base, resource) {
-    let url = (typeof base === 'undefined' || base === null) ? ['api', resource] : [base, resource];
-    this.resource = url.join('/');
+  constructor(prefix = 'api', resource) {
+    console.log([Avid.baseUrl, prefix, resource]);
+    this.resource = [Avid.baseUrl, prefix, resource].join('/').toLowerCase();
+    console.log(this.resource);
   }
 
   getJson(response) {

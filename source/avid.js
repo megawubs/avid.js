@@ -94,6 +94,10 @@ export class Avid {
     return AvidConfig.storage
   }
 
+  get prefix() {
+    return 'api';
+  }
+
   constructor() {
 
     /**
@@ -123,7 +127,7 @@ export class Avid {
     if (Avid.storage.hasOwnProperty(model.constructorName)) {
       return map(this, Avid.storage[model.constructorName]);
     }
-    let api = new Api(Avid.baseUrl, model.resource);
+    let api = new Api(model.prefix, model.resource);
     return api.all().then(response => map(this, response));
   }
 
@@ -138,7 +142,7 @@ export class Avid {
       var items = Avid.storage[model.constructorName].filter(model => model.id === id);
       return (items.length === 1) ? map(this, items[0]) : Promise.reject();
     }
-    let api = new Api(Avid.baseUrl, model.resource);
+    let api = new Api(model.prefix, model.resource);
     return api.find(id).then(response => map(this, response));
   }
 
@@ -149,7 +153,7 @@ export class Avid {
   save() {
 
     var self = this;
-    let api = new Api(Avid.baseUrl, self.resource);
+    let api = new Api(self.prefix, self.resource);
 
     /**
      * Resolve directly when there are no changes to the model, saving us

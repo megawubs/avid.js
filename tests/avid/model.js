@@ -3,20 +3,20 @@ import {Avid} from "../../source/avid";
 import {User} from "./models/user";
 
 beforeEach(function () {
-  Avid.baseUrl = 'http://localhost:8000/api';
+  Avid.baseUrl = 'http://localhost:8000';
 });
 
-describe('Model', () => {
+describe('Model ', () => {
 
-  it('should load all items from modelProxy with Model.all()', () => {
+  it('should load all items from modelProxy with Model.all() ', () => {
     return User.all();
   });
 
-  it('should get one item with Model.find(1)', () => {
+  it('should get one item with Model.find(1) ', () => {
     return User.find(1);
   });
 
-  it('should create a new model when model is newed up', () => {
+  it('should create a new model when model is newed up ', () => {
     var user = new User;
     user.name = 'Jan';
     user.email = 'jan@jan.com';
@@ -26,7 +26,7 @@ describe('Model', () => {
     });
   });
 
-  it('should edit a model when model exists', () => {
+  it('should edit a model when model exists ', () => {
     return User.find(1).then(user => {
       user.name = 'Willem';
       return user.save();
@@ -37,14 +37,14 @@ describe('Model', () => {
   });
 
 
-  it('should use a different url for models when it is set', () => {
+  it('should use a different url for models when it is set ', () => {
     Avid.baseUrl = 'http://blaat.foo';
     assert.equal(User.baseUrl, 'http://blaat.foo');
     return User.find(1).catch(error => {
     });
   });
 
-  it('should restore model when a update goes wrong', () => {
+  it('should restore model when a update goes wrong ', () => {
     return User.find(1).then(user => {
       var oldName = user.name;
       Avid.baseUrl = 'http://blaat.foo';
