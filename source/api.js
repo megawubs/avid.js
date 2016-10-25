@@ -9,10 +9,8 @@ export class Api {
    * @param resource
    * @param prefix
    */
-  constructor(prefix = 'api', resource) {
-    console.log([Avid.baseUrl, prefix, resource]);
-    this.resource = [Avid.baseUrl, prefix, resource].join('/').toLowerCase();
-    console.log(this.resource);
+  constructor(prefix, resource) {
+    this.resource = [Avid.baseUrl, prefix, resource].join('/');
   }
 
   getJson(response) {

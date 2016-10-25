@@ -55,27 +55,19 @@ import {BelongsTo} from "./relations/belongsTo";
  */
 var AvidConfig = {
   baseUrl: null,
-  version: 'v1',
   storage: []
 };
 export class Avid {
 
   /**
-   * Gives Avid the ability to use the correct versioned url.
-   * This will result in the following uri: '/api/v1'
-   * @returns {string}
+   * Used to globally change the baseUrl. This is useful for when your
+   * api is on an other domain or port.
+   * usage:
+   *    Avid.baseUrl = 'http://foo.com'
+   * Do not use a trailing slash!
+   *
+   * @param url
    */
-
-  static get version() {
-    return AvidConfig.version;
-  }
-
-  //noinspection JSAnnotator
-  static set version(version) {
-    AvidConfig.version = version;
-    return true;
-  }
-
   static set baseUrl(url) {
     AvidConfig.baseUrl = url;
     return true;
@@ -85,26 +77,57 @@ export class Avid {
     return AvidConfig.baseUrl;
   }
 
+  //noinspection JSAnnotator
   static set storage(value) {
     AvidConfig.storage = value;
     return true;
   }
 
+  /**
+   * A way to retrieve the storage
+   * @returns {Array}
+   */
   static get storage() {
     return AvidConfig.storage
   }
 
+
+  /**
+   * The prefix to use for requests, this is appended as the first element
+   * to the baseUrl. By default it is 'api'.
+   * usage:
+   *  Avid.baseUrl = 'http://foo.com'
+   *  class User extends Avid{
+   *    get prefix(){
+   *      return 'secret'
+   *    }
+   *  }
+   *
+   *  User.find(1) //request is made to http://foo.com/secret/user/1
+   *
+   * @returns {string}
+   */
   get prefix() {
     return 'api';
+  }
+
+  /**
+   * Gives Avid models the ability to use the correct versioned url.
+   * This will result in the following uri: '/api/v1'
+   */
+  get version() {
+    return null
   }
 
   constructor() {
 
     /**
      * First we are setting up the common properties like the name of the constructor and
-     * the path for the resource.
+     * the uri for the resource.
      *
-     * Afterwards a proxy of this object is returned.
+     * Afterwards a proxy of this object is returned, this way we
+     * can catch when a relation is requested and keep track of
+     * changes made to the model.
      */
     this.initializeProperties();
     return this.proxify();
@@ -112,7 +135,7 @@ export class Avid {
 
   initializeProperties() {
     this.constructorName = this.constructor.name;
-    this.resource = (this.version === null) ? this.constructorName : this.version + '/' + this.constructorName;
+    this.resource = ((this.version === null) ? this.constructorName : this.version + '/' + this.constructorName).toLowerCase();
     this.properties = {};
     this.originals = {};
   }
@@ -120,7 +143,7 @@ export class Avid {
   /**
    * Fetch all items from the resource.
    *
-   * @returns {*}
+   * @returns {Promise}
    */
   static all() {
     var model = new this;
@@ -134,7 +157,7 @@ export class Avid {
   /**
    * Find as specific model by its id
    * @param id
-   * @returns {*}
+   * @returns {Promise}
    */
   static find(id) {
     var model = new this;
@@ -148,7 +171,7 @@ export class Avid {
 
   /**
    * Save or update an existing or new model
-   * @returns {*}
+   * @returns {Promise}
    */
   save() {
 
