@@ -27,7 +27,7 @@ export class HasMany {
 
   add(entity) {
     var self = this;
-    var relation = [self.parent.constructorName, "id"].join('_');
+    var relation = [self.parent.constructorName.toLowerCase(), "id"].join('_');
     entity[relation] = self.parent.id;
     console.log(entity);
     return entity.save();

@@ -10,7 +10,7 @@ export class BelongsTo {
 
   then(callback) {
     var self = this;
-    var relation = [self.parent.constructorName, "id"].join('_');
+    var relation = [self.parent.constructorName.toLowerCase(), "id"].join('_');
     console.log(self.child[relation]);
     return self.api.find(self.child[relation]).then(callback);
   }
