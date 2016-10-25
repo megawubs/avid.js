@@ -1,7 +1,7 @@
 {
-  "name": "@megawubs/eloquentjs",
-  "version": "0.0.50-beta",
-  "description": "An active record like approach to consuming an API, inspired by Laravel's Eloquent",
+  "name": "@megawubs/avid",
+  "version": "0.0.10",
+  "description": "API consumption on fire, inspired by Laravel's Eloquent",
   "main": "index.js",
   "directories": {
     "test": "tests"

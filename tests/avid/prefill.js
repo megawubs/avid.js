@@ -1,10 +1,10 @@
 import {expect, assert} from 'chai';
-import {Eloquent} from "../../source/eloquent";
+import {Avid} from "../../source/avid";
 import {User} from "./models/user";
 
 beforeEach(function () {
-  Eloquent.baseUrl = 'http://localhost:8000/api';
-  Eloquent.storage = {}
+  Avid.baseUrl = 'http://localhost:8000/api';
+  Avid.storage = {}
 });
 window.avidItems = {};
 describe('Prefill', () => {
@@ -15,7 +15,7 @@ describe('Prefill', () => {
       email: 'mega@wubs.com'
     }];
 
-    Eloquent.fill();
+    Avid.fill();
 
     return User.all().then(users => {
       assert.equal(1, users.length);
@@ -29,7 +29,7 @@ describe('Prefill', () => {
       email: 'mega@wubs.com'
     }];
 
-    Eloquent.fill();
+    Avid.fill();
 
     return User.find(600000).then(user => {
       assert.equal(user.id, 600000);

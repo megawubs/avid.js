@@ -1,1 +1,1 @@
-export * from './source/eloquent';
+export * from './source/avid';

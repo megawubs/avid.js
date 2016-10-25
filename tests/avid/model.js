@@ -1,9 +1,9 @@
 import {expect, assert} from 'chai';
-import {Eloquent} from "../../source/eloquent";
+import {Avid} from "../../source/avid";
 import {User} from "./models/user";
 
 beforeEach(function () {
-  Eloquent.baseUrl = 'http://localhost:8000/api';
+  Avid.baseUrl = 'http://localhost:8000/api';
 });
 
 describe('Model', () => {
@@ -38,7 +38,7 @@ describe('Model', () => {
 
 
   it('should use a different url for models when it is set', () => {
-    Eloquent.baseUrl = 'http://blaat.foo';
+    Avid.baseUrl = 'http://blaat.foo';
     assert.equal(User.baseUrl, 'http://blaat.foo');
     return User.find(1).catch(error => {
     });
@@ -47,7 +47,7 @@ describe('Model', () => {
   it('should restore model when a update goes wrong', () => {
     return User.find(1).then(user => {
       var oldName = user.name;
-      Eloquent.baseUrl = 'http://blaat.foo';
+      Avid.baseUrl = 'http://blaat.foo';
       user.name = 'fooo2';
       return user.save().then(() => {
         assert.equal(user.name, oldName);

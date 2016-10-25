@@ -2,10 +2,10 @@ import {expect, assert} from 'chai';
 import {HasMany} from '../../source/relations/hasMany';
 import {User} from "./models/user";
 import {Home} from "./models/home";
-import {Eloquent} from "../../source/eloquent";
+import {Avid} from "../../source/avid";
 
 beforeEach(function () {
-  Eloquent.baseUrl = 'http://localhost:8000/api';
+  Avid.baseUrl = 'http://localhost:8000/api';
 });
 
 describe('Relations', () => {

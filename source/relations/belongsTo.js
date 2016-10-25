@@ -1,12 +1,12 @@
 import {Api} from "../api";
 import {map} from "../map";
-import {Eloquent} from "../eloquent";
+import {Avid} from "../avid";
 
 export class BelongsTo {
   constructor(parent, child) {
     this.child = child;
     this.parent = new parent;
-    this.api = new Api(Eloquent.baseUrl, this.parent.resource);
+    this.api = new Api(Avid.baseUrl, this.parent.resource);
 
     this.relationAccessor = this.parent.constructorName.toLowerCase();
     if (this.child.properties.hasOwnProperty(this.relationAccessor)) {

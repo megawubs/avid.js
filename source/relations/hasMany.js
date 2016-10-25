@@ -1,6 +1,6 @@
 import {Api} from "../api";
 import {map} from "../map";
-import {Eloquent} from "../eloquent";
+import {Avid} from "../avid";
 
 export class HasMany {
 
@@ -9,7 +9,7 @@ export class HasMany {
     self.relation = relation;
     self.resource = resource;
     self.parent = parent;
-    self.api = new Api(Eloquent.baseUrl, self.parent.resource);
+    self.api = new Api(Avid.baseUrl, self.parent.resource);
   }
 
   then(callback) {

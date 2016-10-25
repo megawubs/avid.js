@@ -1,21 +1,25 @@
-Eloquentjs
+Avid
 ==========
-An active record like approach to consuming an API, inspired by Laravel's Eloquent
+API consumption on fire, inspired by Laravel's Eloquent
 
 ### Installation
 For now, this module only works inside a laravel installation.
 
 ```Shell
-$ npm install @megawubs/eloquentjs --save
+$ yarn install @megawubs/avid
 ```
 
 ### Usage
 
 This wrapper expects a certain api design. The name of the model you create is automatically mapped to an api endpoint.
-Let's say we have a `User` model, by default Eloquentjs will generate a resource uri of `/api/v1/user`. When you 
+Let's say we have a `User` model, by default Avid will generate a resource uri of `/api/v1/user`, expecting an json array of all user objects
+
+A Avid model is defined like this:
 
 ```JavaScript
-export class User extends Eloquent{
+import {Avid} from "@megawubs/avid"
+
+export class User extends Avid{
     get version(){
         return 'v1'
     }
@@ -25,7 +29,7 @@ export class User extends Eloquent{
     }
 }
 
-export class Post extends Eloquent{
+export class Post extends Avid{
     get version(){
         return 'v1'
     }

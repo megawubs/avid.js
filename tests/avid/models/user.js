@@ -1,7 +1,7 @@
-import {Eloquent} from "../../../source/eloquent";
+import {Avid} from "../../../source/avid";
 import {Home} from "./home";
 
-export class User extends Eloquent {
+export class User extends Avid {
 
   get version() {
     return 'v1';

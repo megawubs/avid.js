@@ -5,13 +5,13 @@ import {HasMany} from "./relations/hasMany";
 import {BelongsTo} from "./relations/belongsTo";
 
 /**
- * Eloquentjs
+ * Avid
  *
- * An active record like approach to consuming an API, inspired by Laravel's Eloquent
+ * An active record like approach to consuming an API, inspired by Laravel's Avid
  *
  * Example:
  *
- * export class User extends Eloquent{
+ * export class User extends Avid{
  *    get version(){
  *      return 'v1'
  *    }
@@ -21,7 +21,7 @@ import {BelongsTo} from "./relations/belongsTo";
  *    }
  * }
  *
- * export class Post extends Eloquent{
+ * export class Post extends Avid{
  *   get version(){
  *    return 'v1'
  *   }
@@ -53,45 +53,45 @@ import {BelongsTo} from "./relations/belongsTo";
  *    return user.save();
  *  }).then(updatedUser => console.log(updatedUser.name)); //jane
  */
-var EloquentjsConfig = {
+var AvidConfig = {
   baseUrl: null,
   version: 'v1',
   storage: []
 };
-export class Eloquent {
+export class Avid {
 
   /**
-   * Gives Eloquentjs the ability to use the correct versioned url.
+   * Gives Avid the ability to use the correct versioned url.
    * This will result in the following uri: '/api/v1'
    * @returns {string}
    */
 
   static get version() {
-    return EloquentjsConfig.version;
+    return AvidConfig.version;
   }
 
   //noinspection JSAnnotator
   static set version(version) {
-    EloquentjsConfig.version = version;
+    AvidConfig.version = version;
     return true;
   }
 
   static set baseUrl(url) {
-    EloquentjsConfig.baseUrl = url;
+    AvidConfig.baseUrl = url;
     return true;
   }
 
   static get baseUrl() {
-    return EloquentjsConfig.baseUrl;
+    return AvidConfig.baseUrl;
   }
 
   static set storage(value) {
-    EloquentjsConfig.storage = value;
+    AvidConfig.storage = value;
     return true;
   }
 
   static get storage() {
-    return EloquentjsConfig.storage
+    return AvidConfig.storage
   }
 
   constructor() {
@@ -120,10 +120,10 @@ export class Eloquent {
    */
   static all() {
     var model = new this;
-    if (Eloquent.storage.hasOwnProperty(model.constructorName)) {
-      return map(this, Eloquent.storage[model.constructorName]);
+    if (Avid.storage.hasOwnProperty(model.constructorName)) {
+      return map(this, Avid.storage[model.constructorName]);
     }
-    let api = new Api(Eloquent.baseUrl, model.resource);
+    let api = new Api(Avid.baseUrl, model.resource);
     return api.all().then(response => map(this, response));
   }
 
@@ -134,11 +134,11 @@ export class Eloquent {
    */
   static find(id) {
     var model = new this;
-    if (Eloquent.storage.hasOwnProperty(model.constructorName)) {
-      var items = Eloquent.storage[model.constructorName].filter(model => model.id === id);
+    if (Avid.storage.hasOwnProperty(model.constructorName)) {
+      var items = Avid.storage[model.constructorName].filter(model => model.id === id);
       return (items.length === 1) ? map(this, items[0]) : Promise.reject();
     }
-    let api = new Api(Eloquent.baseUrl, model.resource);
+    let api = new Api(Avid.baseUrl, model.resource);
     return api.find(id).then(response => map(this, response));
   }
 
@@ -149,7 +149,7 @@ export class Eloquent {
   save() {
 
     var self = this;
-    let api = new Api(Eloquent.baseUrl, self.resource);
+    let api = new Api(Avid.baseUrl, self.resource);
 
     /**
      * Resolve directly when there are no changes to the model, saving us
@@ -209,13 +209,13 @@ export class Eloquent {
    * it has Proxy's. This is an object that sits in between the model it proxy's and
    * the model that the actions are being preformed on.
    *
-   * This way, we can catch get and set operations on a Eloquent instance!
+   * This way, we can catch get and set operations on a Avid instance!
    * var user = new User();
    * user.name = 'Bram';
    *
    * the set action for the name property is intercepted by the proxy,
    * setting it on the properties property. By doing this, we can divide the Model it's properties
-   * from Eloquent its properties.
+   * from Avid its properties.
    *
    * it also enables us to access relationships as properties
    * user.posts.then(//..)
@@ -238,7 +238,7 @@ export class Eloquent {
 
   static fill() {
     Object.keys(avidItems).forEach(modelName => {
-      Eloquent.storage[modelName] = avidItems[modelName];
+      Avid.storage[modelName] = avidItems[modelName];
     });
   }
 }
