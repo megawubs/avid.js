@@ -16,7 +16,7 @@ export class BelongsTo {
 
   then(callback) {
     var self = this;
-    if (typeof this.relationAccessor !== 'undefined') {
+    if (typeof this.relationValue !== 'undefined') {
       return map(self.parent, self.relationValue).then(callback);
     }
     var relation = [self.parent.constructorName.toLowerCase(), "id"].join('_');

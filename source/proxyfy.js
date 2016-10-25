@@ -1,11 +1,11 @@
 export class ModelProxy {
 
   static get accessibleMethods() {
-    return ['all', 'find', 'save', 'restore', 'baseUrl', 'reset'];
+    return ['all', 'find', 'save', 'restore', 'reset'];
   }
 
   static get accessibleProperties() {
-    return ['resource', 'properties', 'constructorName', 'hasChanged', 'originals', 'baseUrl'];
+    return ['resource', 'properties', 'constructorName', 'hasChanged', 'originals'];
   }
 
   static get accessible() {
