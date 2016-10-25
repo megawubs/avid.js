@@ -4,7 +4,6 @@ export function map(model, response) {
   var resolved = (isArray(response))
     ? mapResponseToMultiple(response, model)
     : mapResponseToModel(response, model);
-  console.log(resolved);
   return Promise.resolve(resolved);
 }
 

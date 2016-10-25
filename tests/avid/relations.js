@@ -42,11 +42,9 @@ describe('Relations', () => {
     home.name = 'The Little Walls';
     return User.find(1).then(result => {
       user = result;
-      console.log(user.home);
       return user.homes.add(home);
     }).then(home => {
       return user.homes.then(homes => {
-        console.log(home);
         assert.equal(homes[0].name, home.name);
         assert.equal(homes[0].user_id, user.id);
       });
