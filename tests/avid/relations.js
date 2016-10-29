@@ -67,4 +67,21 @@ describe('Relations ', () => {
       })
     });
   });
+
+  it('can fetch a hasMany relation from the api ', () => {
+    return User.all().then(users => {
+      return users[0].homes;
+    }).then(homes => {
+      assert.instanceOf(homes, Array);
+      assert.instanceOf(homes[0], Home);
+    });
+  });
+
+  it('can fetch a belongsTo relation from the api', () => {
+    return Home.all().then(home => home[0].user).then(user => {
+      assert.instanceOf(user, User);
+    })
+  });
+
+
 });

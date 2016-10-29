@@ -9,7 +9,7 @@ beforeEach(function () {
 window.avidItems = {};
 describe('Prefill ', () => {
   it('should not make a http request ', () => {
-    avidItems["User"] = [{
+    avidItems["user"] = [{
       id: 1,
       name: 'Megawubs',
       email: 'mega@wubs.com'
@@ -23,7 +23,7 @@ describe('Prefill ', () => {
   });
 
   it('should not make a http request when requested id is in storage ', () => {
-    avidItems["User"] = [{
+    avidItems["user"] = [{
       id: 600000,
       name: 'Megawubs',
       email: 'mega@wubs.com'
