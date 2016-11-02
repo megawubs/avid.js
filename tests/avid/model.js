@@ -54,5 +54,13 @@ describe('Model ', () => {
       });
     });
   });
+
+  it('should delete a model', () => {
+    var user = new User();
+    user.name = 'Bee';
+    return user.save().then(user => {
+      return user.delete();
+    });
+  });
 });
 
