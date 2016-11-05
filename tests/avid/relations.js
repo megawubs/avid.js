@@ -11,7 +11,7 @@ beforeEach(function () {
 describe('Relations ', () => {
   it('Can access hasMany relation by property ', () => {
     return User.find(1)
-      .then(user => user.homes)
+      .then(user => user.homes())
       .then(homes => {
         assert.instanceOf(homes, Array);
       });
@@ -22,7 +22,7 @@ describe('Relations ', () => {
     return Home.find(1)
       .then(home => {
         myHome = home;
-        return home.user
+        return home.user()
       })
       .then(user => {
         assert.equal(myHome.user_id, user.id);
@@ -31,7 +31,7 @@ describe('Relations ', () => {
 
   it('relation prorerty returns relation object ', () => {
     return User.find(1).then(user => {
-      assert.instanceOf(user.homes, HasMany);
+      assert.instanceOf(user.homes(), HasMany);
     });
   });
 
@@ -42,9 +42,9 @@ describe('Relations ', () => {
     home.name = 'The Little Walls';
     return User.find(1).then(result => {
       user = result;
-      return user.homes.add(home);
+      return user.homes().add(home);
     }).then(home => {
-      return user.homes.then(homes => {
+      return user.homes().then(homes => {
         assert.equal(homes[0].name, home.name);
         assert.equal(homes[0].user_id, user.id);
       });
@@ -53,7 +53,7 @@ describe('Relations ', () => {
 
   it('can reverse a relation ', () => {
     let user_id = 1;
-    return Home.find(1).then(home => home.user)
+    return Home.find(1).then(home => home.user())
       .then(user => {
         assert.equal(user.id, user_id);
       });
@@ -61,7 +61,7 @@ describe('Relations ', () => {
 
   it('can handle eager loading ', () => {
     return User.find(1).then(user => {
-      return user.homes.then(homes => {
+      return user.homes().then(homes => {
         assert.instanceOf(homes, Array);
         assert.instanceOf(homes[0], Home);
       })
@@ -70,7 +70,7 @@ describe('Relations ', () => {
 
   it('can fetch a hasMany relation from the api ', () => {
     return User.all().then(users => {
-      return users[0].homes;
+      return users[0].homes();
     }).then(homes => {
       assert.instanceOf(homes, Array);
       assert.instanceOf(homes[0], Home);
@@ -78,7 +78,7 @@ describe('Relations ', () => {
   });
 
   it('can fetch a belongsTo relation from the api', () => {
-    return Home.all().then(home => home[0].user).then(user => {
+    return Home.all().then(home => home[0].user()).then(user => {
       assert.instanceOf(user, User);
     })
   });
