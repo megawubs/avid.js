@@ -3,6 +3,8 @@ import {map} from "./map";
 import {ModelProxy} from "./proxyfy";
 import {HasMany} from "./relations/hasMany";
 import {BelongsTo} from "./relations/belongsTo";
+import {InteractsWith} from "./actions/interactsWith";
+import {LoadsFrom} from "./actions/loadsFrom";
 
 /**
  * Avid
@@ -113,16 +115,34 @@ export class Avid {
 
   /**
    * Gives Avid models the ability to use the correct versioned url.
-   * This will result in the following uri: '/api/v1'
+   * For example
+   * get _version(){
+   *   return 'v1';
+   * }
+   * Will result in the following uri: '/api/v1'
    */
   get _version() {
     return null
   }
 
+  /**
+   * The name of the entity. This is used to build the resource url for the entity.
+   *
+   * @returns {string}
+   * @private
+   */
   get _name() {
     return this.constructor.name.toLowerCase();
   }
 
+  /**
+   * The full resource for the entity.
+   * It includes the prefix, version and name. If no version is set
+   * it's not used and the resource will become the prefix and name
+   *
+   * @returns {string}
+   * @private
+   */
   get _resource() {
     return ((this._version === null) ? [this._prefix, this._name] : [this._prefix, this._version, this._name]).join('/');
   }
@@ -130,20 +150,13 @@ export class Avid {
   constructor() {
 
     /**
-     * First we are setting up the common properties like the name of the constructor and
-     * the uri for the resource.
-     *
-     * Afterwards a proxy of this object is returned, this way we
+     * A proxy of this object is returned during construction, this way we
      * can catch when a relation is requested and keep track of
      * changes made to the model.
      */
-    this.initializeProperties();
-    return this.proxify();
-  }
-
-  initializeProperties() {
     this.properties = {};
     this.originals = {};
+    return this.proxify();
   }
 
   /**
@@ -204,7 +217,7 @@ export class Avid {
        */
       return api.create(self.properties)
         .then(response => map(this, response))
-        .catch(error => console.log("Failed saving modelProxy due to'", error));
+        .catch(error => console.log("Failed saving " + self._name + " due to'", error));
     }
 
     /**
@@ -244,21 +257,60 @@ export class Avid {
   }
 
   /**
+   * Defines an action method to interact with other
+   * entities or itself, in other words: it changes information.
+   * Lets say we have two models: User and Group.
+   * A user can join a group and a group can invite users.
+   *
+   * group.invite(user); //a group invites a user.
+   * user.accept(invite); // a user accepts a invite.
+   * user.join(group); // a user joins a group.
+   * user.leave(group); //a user leaves a group.
+   * group.ban(user); //a group bans a user.
+   *
+   * @param entity
+   * @param source
+   * @param params
+   * @returns {InteractsWith}
+   */
+  interactsWith(entity, source, params = null) {
+    //make it possible to omit 'this' when the interaction is with the same object.
+    if (typeof entity === 'string') return new InteractsWith(this, entity, params);
+    return new InteractsWith(entity, source, params);
+  }
+
+  /**
+   * Defines an action method that only retrieves information. It does not make changes.
+   * Lets say we have two models: User and Group.
+   *
+   * A group has metrics and a user has extended profile information
+   * group.metrics(); //get the group metrics
+   * user.extendedProfile(); //gt the extended user profile
+   *
+   * @param entity
+   * @param source
+   * @param params
+   * @returns {LoadsFrom}
+   */
+  loadsFrom(entity, source, params = null) {
+    if (typeof entity === 'string') return new LoadsFrom(this, source, params);
+    return new LoadsFrom(entity, source, params);
+  }
+
+  /**
    * We need a way to register get and set actions on a model to be able to set
    * the properties directly on the model. ES6 has no thing like magic methods, instead
-   * it has Proxy's. This is an object that sits in between the model it proxy's and
-   * the model that the actions are being preformed on.
+   * it has Proxy's. This is an object that sits in between the object it proxy's and
+   * the object that the actions are being preformed on.
    *
    * This way, we can catch get and set operations on a Avid instance!
    * var user = new User();
    * user.name = 'Bram';
    *
    * the set action for the name property is intercepted by the proxy,
-   * setting it on the properties property. By doing this, we can divide the Model it's properties
-   * from Avid its properties.
+   * setting it on the properties property. By doing this we can keep track of changes and
+   * revert them if needed.
    *
-   * it also enables us to access relationships as properties
-   * user.posts.then(//..)
    *
    * @returns {ModelProxy}
    */
