@@ -18,7 +18,7 @@ export class ModelProxy {
     model.hasChanged = false;
     return new Proxy(model, {
       get: function (target, name, receiver) {
-        if (self.isRelation(target, name)) return target[name]();
+        if (self.isRelation(target, name)) return target[name];
         if (self.canAccessProperty(name)) return target[name];
         if (name === 'proxify') return receiver;
 
