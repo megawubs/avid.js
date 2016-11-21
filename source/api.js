@@ -34,6 +34,11 @@ export class Api {
       .then(this.getJson)
   }
 
+  delete(id) {
+    return Vue.http
+      .delete(this.url(id))
+  }
+
   create(model) {
     return Vue.http
       .post(this.url(), model)

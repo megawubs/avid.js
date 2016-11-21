@@ -1,9 +1,5 @@
 export class ModelProxy {
 
-  static get accessibleMethods() {
-    return ['all', 'find', 'save', 'restore', 'reset'];
-  }
-
   static get accessibleProperties() {
     return ['resource', 'properties', 'constructorName', 'hasChanged', 'originals', 'prefix'];
   }
@@ -18,9 +14,9 @@ export class ModelProxy {
     model.hasChanged = false;
     return new Proxy(model, {
       get: function (target, name, receiver) {
-        if (self.isRelation(target, name)) return target[name];
+        if (name === 'proxify') return () => receiver;
+        if (self.isMethod(target, name)) return target[name];
         if (self.canAccessProperty(name)) return target[name];
-        if (name === 'proxify') return receiver;
 
         return target[name];
       },
@@ -38,7 +34,7 @@ export class ModelProxy {
     return ModelProxy.accessible.indexOf(name) >= 0;
   }
 
-  isRelation(target, name) {
-    return typeof target[name] === 'function' && ModelProxy.accessibleMethods.indexOf(name) === -1;
+  isMethod(target, name) {
+    return typeof target[name] === 'function';
   }
 }
