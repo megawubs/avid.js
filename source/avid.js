@@ -215,6 +215,13 @@ export class Avid {
       .catch(error => self.reset());
   }
 
+  delete() {
+    var self = this;
+    let api = new Api(self._resource);
+
+    return api.delete(self.id);
+  }
+
   /**
    * Defines a one to many relationship.
    *
