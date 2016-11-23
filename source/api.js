@@ -13,6 +13,7 @@ export class Api {
   }
 
   getJson(response) {
+    console.log('getting json...');
     return response['data'];
   }
 
@@ -31,7 +32,7 @@ export class Api {
   update(model) {
     return Vue.http
       .put(this.url(model.id), model)
-      .then(this.getJson)
+      .then(this.getJson);
   }
 
   delete(id) {

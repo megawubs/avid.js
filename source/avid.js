@@ -218,6 +218,7 @@ export class Avid {
       return api.create(self.properties)
         .then(response => map(this, response))
         .catch(error => console.log("Failed saving " + self._name + " due to'", error));
+
     }
 
     /**
@@ -225,7 +226,7 @@ export class Avid {
      */
     return api.update(self.properties)
       .then(response => map(this, response))
-      .catch(error => self.reset());
+
   }
 
   delete() {
@@ -318,14 +319,14 @@ export class Avid {
     return new ModelProxy(this);
   }
 
-  reset() {
+  reset(error) {
     var self = this;
     Object.keys(this.originals).forEach(key => {
       if (typeof self[key] !== 'function') {
         self[key] = self.originals[key];
       }
     });
-    return self;
+    return Promise.reject(error);
   }
 
   static fill() {
