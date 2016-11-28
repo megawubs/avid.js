@@ -13,7 +13,6 @@ export class Api {
   }
 
   getJson(response) {
-    console.log('getting json...');
     return response['data'];
   }
 
