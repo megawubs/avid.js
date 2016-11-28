@@ -276,7 +276,7 @@ export class Avid {
    */
   interactsWith(entity, source, params = null) {
     //make it possible to omit 'this' when the interaction is with the same object.
-    if (typeof entity === 'string') return new InteractsWith(this, entity, params);
+    if (typeof entity === 'string') return new InteractsWith(this, entity, source);
     return new InteractsWith(entity, source, params);
   }
 
@@ -294,7 +294,7 @@ export class Avid {
    * @returns {LoadsFrom}
    */
   loadsFrom(entity, source, params = null) {
-    if (typeof entity === 'string') return new LoadsFrom(this, source, params);
+    if (typeof entity === 'string') return new LoadsFrom(this, entity, source);
     return new LoadsFrom(entity, source, params);
   }
 

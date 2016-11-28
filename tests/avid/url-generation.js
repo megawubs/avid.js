@@ -63,7 +63,7 @@ class Resource extends Avid {
   }
 }
 beforeEach(function () {
-  Avid.baseUrl = 'http://localhost:8000';
+  Avid.baseUrl = 'http://framework.dev';
 });
 
 describe('Url Generation ', () => {
@@ -103,7 +103,7 @@ describe('Url Generation ', () => {
     assert.equal('prefix/suffix', suffix._resource);
   });
 
-  it('should work when overwiting _resource,', ()=> {
+  it('should work when overwiting _resource,', () => {
     var resource = new Resource();
     assert.equal('foo/bar/baz', resource._resource);
   });

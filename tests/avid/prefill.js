@@ -3,7 +3,7 @@ import {Avid} from "../../source/avid";
 import {User} from "./models/user";
 
 beforeEach(function () {
-  Avid.baseUrl = 'http://localhost:8000';
+  Avid.baseUrl = 'http://framework.dev';
   Avid.storage = {}
 });
 window.avidItems = {};

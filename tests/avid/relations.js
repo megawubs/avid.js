@@ -6,7 +6,7 @@ import {Avid} from "../../source/avid";
 var madeRequest = false;
 
 beforeEach(function () {
-  Avid.baseUrl = 'http://localhost:8000';
+  Avid.baseUrl = 'http://framework.dev';
   madeRequest = false;
   Vue.http.interceptors.push((request, next) => {
     madeRequest = true;
