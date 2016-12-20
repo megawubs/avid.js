@@ -5,7 +5,10 @@ export class Interaction {
     this.source = source;
     this.params = params;
     this.entity = entity;
-    this.resource = [Avid.baseUrl, entity._resource, entity.id, source].join('/');
+
+    this.resource = (typeof entity === 'object')
+      ? [Avid.baseUrl, entity._resource, entity.id, source].join('/')
+      : [Avid.baseUrl, (new entity)._resource, source].join('/');
   }
 
 }
