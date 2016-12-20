@@ -281,6 +281,31 @@ export class Avid {
   }
 
   /**
+   * Makes it possible to do Model.interactsWith.
+   * This is  useful when you have a interaction directly on the
+   * resource, like this: [post] api/v1/group/search. The method for this will be:
+   *
+   * Definition:
+   * export class Group extends Avid{
+   *
+   *  static search(query){
+   *    return this.interactsWith('search', {query: query};
+   *  }
+   *
+   * }
+   *
+   * Usage:
+   * Group.search('stuff').then(result => {...});
+   * @param source
+   * @param params
+   * @returns {InteractsWith}
+   */
+  static interacsWith(source, params = null) {
+    let model = new this;
+    return model.interactsWith(this, source, params);
+  }
+
+  /**
    * Defines an action method that only retrieves information. It does not make changes.
    * Lets say we have two models: User and Group.
    *
@@ -296,6 +321,32 @@ export class Avid {
   loadsFrom(entity, source, params = null) {
     if (typeof entity === 'string') return new LoadsFrom(this, entity, source);
     return new LoadsFrom(entity, source, params);
+  }
+
+  /**
+   * Makes it possible to do Model.loadsFrom.
+   * This is  useful when you have an action directly on the
+   * resource, like this: [get] api/v1/group/search. The method for this will be:
+   *
+   * Definition:
+   * export class Group extends Avid{
+   *
+   *  static search(query){
+   *    return this.loadsFrom('search', {query: query};
+   *  }
+   *
+   * }
+   *
+   * Usage:
+   * Group.search('stuff').then(result => {...});
+   *
+   * @param source
+   * @param params
+   * @returns {LoadsFrom}
+   */
+  static loadsFrom(source, params = null) {
+    let model = new this;
+    return model.loadsFrom(this, source, params);
   }
 
   /**
