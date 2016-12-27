@@ -16,15 +16,17 @@ export class Api {
     return response['data'];
   }
 
-  all() {
+  all(params = null) {
+    console.log('all:', params);
+
     return Vue.http
-      .get(this.url())
+      .get(this.url(), {params: params == null ? {} : params})
       .then(this.getJson);
   }
 
-  find(id) {
+  find(id, params = null) {
     return Vue.http
-      .get(this.url(id))
+      .get(this.url(id), params)
       .then(this.getJson);
   }
 
@@ -45,10 +47,10 @@ export class Api {
       .then(this.getJson);
   }
 
-  relation(model, relation, resource) {
+  relation(model, relation, resource, params = null) {
     if (model.id === undefined) return Promise.reject('Unable to find relation, model has no identifier.');
     var api = new Api(this.uri(model.id, resource));
-    return api.all();
+    return api.all(params);
   }
 
   uri(...parts) {

@@ -241,10 +241,11 @@ export class Avid {
    *
    * @param relation
    * @param resource
+   * @param params
    * @returns {HasMany}
    */
-  hasMany(relation, resource) {
-    return new HasMany(relation, resource, this.proxify());
+  hasMany(relation, resource, params = null) {
+    return new HasMany(relation, resource, this.proxify(), params);
   }
 
   /**
