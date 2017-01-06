@@ -1,0 +1,33 @@
+{
+  "group": [],
+  "home": [
+    {
+      "name": "The Little Walls",
+      "user_id": 1,
+      "apiId": "v1",
+      "id": 1,
+      "user": {
+        "name": "Willem",
+        "email": "jan@jan.com",
+        "password": "secret",
+        "id": 1
+      }
+    }
+  ],
+  "user": [
+    {
+      "name": "Willem",
+      "email": "jan@jan.com",
+      "password": "secret",
+      "id": 1,
+      "homes": [
+        {
+          "name": "The Little Walls",
+          "user_id": 1,
+          "apiId": "v1",
+          "id": 1
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+version: "2"
+
+services:
+
+# we need to have some sort of an api in order to test if Avid actually works,
+# with this little service, we set up an api based on the configuration
+# in /tests/db.json and /tests/routes.json. No need for a fancy web app or anything else.
+  api:
+    build:
+       context: ./docker/api
+    volumes:
+      - ./tests/db.json:/source/db.json
+      - ./tests/routes.json:/source/routes.json
+    ports:
+      - 3000:3000
+    command: json-server --watch db.json --routes routes.json
+# when in development, you don't want to keep thinking about re-compiling everything to code that can run
+# in the browser. This service runs gulp watch for us, so we only have to reload the page!
+  gulp:
+    build:
+      context: ./docker/gulp
+    volumes_from:
+      - source
+    command: gulp watch
+
+# To serve the test suite we need a little server. This is the one I know and works the simplest
+  test_site:
+    image: php:7.0-alpine
+    volumes_from:
+      - source
+    expose:
+      - 8001
+    ports:
+      - 8001:8001
+    command: php -S 0.0.0.0:8001 -t /source/tests/server
+
+# our source code mapped to the images
+  source:
+    image: alpine
+    volumes:
+      - ./:/source
+    command: echo foo
+
