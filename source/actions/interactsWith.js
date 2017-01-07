@@ -1,12 +1,14 @@
 import {Interaction} from "./interaction";
+let axios = require('axios');
+
 export class InteractsWith extends Interaction {
 
-  then(callback) {
-    var self = this;
+    then(callback) {
+        let self = this;
 
-    return Vue.http
-      .post(self.resource, self.params)
-      .then(response => response.data)
-      .then(callback);
-  }
+        return axios
+            .post(self.resource, self.params)
+            .then(response => response.data)
+            .then(callback);
+    }
 }

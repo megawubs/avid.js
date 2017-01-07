@@ -3,14 +3,17 @@ import {HasMany} from '../../source/relations/hasMany';
 import {User} from "./models/user";
 import {Home} from "./models/home";
 import {Avid} from "../../source/avid";
+let axios = require('axios');
 let madeRequest = false;
 
 beforeEach(function () {
     Avid.baseUrl = 'http://localhost:3000';
     madeRequest = false;
-    Vue.http.interceptors.push((request, next) => {
+    axios.interceptors.request.use(config => {
         madeRequest = true;
-        next();
+        return config
+    }, error => {
+        return Promise.reject(error);
     });
 });
 

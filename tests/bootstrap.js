@@ -1,2 +1,1 @@
-window.Vue = require('vue');
-require('vue-resource');
+window.axios = require('axios');
