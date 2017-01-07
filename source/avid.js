@@ -55,7 +55,7 @@ import {LoadsFrom} from "./actions/loadsFrom";
  *    return user.save();
  *  }).then(updatedUser => console.log(updatedUser.name)); //jane
  */
-var AvidConfig = {
+let AvidConfig = {
     baseUrl: null,
     storage: []
 };
@@ -199,7 +199,7 @@ export class Avid {
      */
     save() {
 
-        var self = this;
+        let self = this;
         let api = new Api(self._resource);
 
         /**
@@ -222,7 +222,7 @@ export class Avid {
              */
             return api.create(self.properties)
                 .then(response => map(this, response))
-                .catch(error => console.log("Failed saving " + self._name + " due to'", error));
+                .catch(error => console.warn("Failed saving " + self._name + " due to'", error));
 
         }
 

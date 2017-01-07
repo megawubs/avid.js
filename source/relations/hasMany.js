@@ -17,7 +17,6 @@ export class HasMany {
         if (self.parent.properties.hasOwnProperty(self.resource.toLowerCase())) {
             return map(self.relation, self.parent.properties[self.resource.toLowerCase()]).then(callback);
         }
-
         return self.api.relation(self.parent, self.relation, self.resource, self.params)
             .then(response => map(self.relation, response))
             .then(callback);
