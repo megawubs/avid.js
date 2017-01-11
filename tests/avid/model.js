@@ -21,6 +21,7 @@ describe('Model ', () => {
         user.name = 'Jan';
         user.email = 'jan@jan.com';
         user.password = 'secret';
+
         return user.save().then(user => {
             expect(user.id).to.be.a('number')
         });

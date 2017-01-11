@@ -3,6 +3,10 @@ import {User} from "./user";
 
 export class Group extends Avid {
 
+    constructor() {
+        return super()
+    }
+    
     get _version() {
         return 'v1';
     }

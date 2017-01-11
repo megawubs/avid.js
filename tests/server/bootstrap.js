@@ -248,8 +248,7 @@ eval("'use strict';\n\n/**\n * Syntactic sugar for invoking a function and expan
 /* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
-"use strict";
-eval("'use strict';\n\nwindow.axios = __webpack_require__(8);//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiMjYuanMiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vdGVzdHMvYm9vdHN0cmFwLmpzPzVmNGMiXSwic291cmNlc0NvbnRlbnQiOlsiJ3VzZSBzdHJpY3QnO1xuXG53aW5kb3cuYXhpb3MgPSByZXF1aXJlKCdheGlvcycpO1xuXG5cbi8vIFdFQlBBQ0sgRk9PVEVSIC8vXG4vLyB0ZXN0cy9ib290c3RyYXAuanMiXSwibWFwcGluZ3MiOiJBQUFBO0FBQ0E7QUFDQSIsInNvdXJjZVJvb3QiOiIifQ==");
+eval("window.axios = __webpack_require__(8);//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiMjYuanMiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vdGVzdHMvYm9vdHN0cmFwLmpzPzVmNGMiXSwic291cmNlc0NvbnRlbnQiOlsid2luZG93LmF4aW9zID0gcmVxdWlyZSgnYXhpb3MnKTtcblxuXG4vLyBXRUJQQUNLIEZPT1RFUiAvL1xuLy8gdGVzdHMvYm9vdHN0cmFwLmpzIl0sIm1hcHBpbmdzIjoiQUFBQSIsInNvdXJjZVJvb3QiOiIifQ==");
 
 /***/ }
 /******/ ]);

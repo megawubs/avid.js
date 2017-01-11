@@ -3,6 +3,10 @@ import {Home} from "./home";
 
 export class User extends Avid {
 
+    constructor() {
+        return super()
+    }
+
     get _version() {
         return 'v1';
     }
