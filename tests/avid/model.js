@@ -1,6 +1,7 @@
 import {expect, assert} from 'chai';
 import {Avid} from "../../source/avid";
 import {User} from "./models/user";
+import {ModelProxy} from "../../source/proxyfy";
 
 beforeEach(function () {
     Avid.baseUrl = 'http://localhost:3000';
@@ -17,7 +18,8 @@ describe('Model ', () => {
     });
 
     it('should create a new model when model is newed up ', () => {
-        let user = new User;
+        let user = new User();
+        console.log(user);
         user.name = 'Jan';
         user.email = 'jan@jan.com';
         user.password = 'secret';

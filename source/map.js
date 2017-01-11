@@ -1,7 +1,6 @@
-import {isArray} from "vue/src/util/lang";
-
 export function map(model, response) {
-    let resolved = (isArray(response))
+    console.log(response.constructor);
+    let resolved = (response.constructor === Array)
         ? mapResponseToMultiple(response, model)
         : mapResponseToModel(response, model);
     return Promise.resolve(resolved);

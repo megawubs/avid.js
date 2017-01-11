@@ -198,7 +198,7 @@ export class Avid {
      * @returns {Promise}
      */
     save() {
-
+        console.log('saving...', this);
         let self = this;
         let api = new Api(self._resource);
 
