@@ -5,6 +5,7 @@ import {HasMany} from "./relations/hasMany";
 import {BelongsTo} from "./relations/belongsTo";
 import {InteractsWith} from "./actions/interactsWith";
 import {LoadsFrom} from "./actions/loadsFrom";
+import {validate} from 'validate.js'
 
 /**
  * Avid
@@ -41,7 +42,7 @@ import {LoadsFrom} from "./actions/loadsFrom";
  *  .then(post => post.user) //fetch relation from api
  *  .then(post => console.log(post)); //log relation
  *
- *  var user = new User(); //new up a user
+ *  let user = new User(); //new up a user
  *
  *  user.name = 'John'
  *  user.email = 'do@john.com'
@@ -152,6 +153,10 @@ export class Avid {
         ).join('/');
     }
 
+    get _rules() {
+        return {};
+    }
+
     constructor() {
 
         /**
@@ -170,7 +175,7 @@ export class Avid {
      * @returns {Promise}
      */
     static all() {
-        var model = new this;
+        let model = new this;
         if (Avid.storage.hasOwnProperty(model._name)) {
             return map(this, Avid.storage[model._name]);
         }
@@ -184,9 +189,9 @@ export class Avid {
      * @returns {Promise}
      */
     static find(id) {
-        var model = new this;
+        let model = new this;
         if (Avid.storage.hasOwnProperty(model._name)) {
-            var items = Avid.storage[model._name].filter(model => model.id === id);
+            let items = Avid.storage[model._name].filter(model => model.id === id);
             return (items.length === 1) ? map(this, items[0]) : Promise.reject();
         }
         let api = new Api(model._resource);
@@ -207,10 +212,15 @@ export class Avid {
          * an exidental update or save of an unchanged model.
          */
 
-        if (self.hasChanged === false) return Promise.resolve(self);
+        if (self.hasChanged === false) return Promise.reject(self);
 
         /**
-         * When we do `var model = new Model();` it has no id yet, this way we can
+         * Validate the model based on validate.js validation rules
+         */
+        let validation = self.validate();
+        if (validation !== undefined) return Promise.reject(validation);
+        /**
+         * When we do `let model = new Model();` it has no id yet, this way we can
          * check if a model needs to be updated or saved
          */
 
@@ -235,7 +245,7 @@ export class Avid {
     }
 
     delete() {
-        var self = this;
+        let self = this;
         let api = new Api(self._resource);
 
         return api.delete(self.id);
@@ -362,7 +372,7 @@ export class Avid {
      * the object that the actions are being preformed on.
      *
      * This way, we can catch get and set operations on a Avid instance!
-     * var user = new User();
+     * let user = new User();
      * user.name = 'Bram';
      *
      * the set action for the name property is intercepted by the proxy,
@@ -376,8 +386,12 @@ export class Avid {
         return new ModelProxy(this);
     }
 
+    validate() {
+        return validate(this.properties, this._rules)
+    }
+
     reset(error) {
-        var self = this;
+        let self = this;
         Object.keys(this.originals).forEach(key => {
             if (typeof self[key] !== 'function') {
                 self[key] = self.originals[key];

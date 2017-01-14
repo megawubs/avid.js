@@ -14,7 +14,8 @@
     "url": "git+https://github.com/megawubs/avid.js.git"
   },
   "dependencies": {
-    "axios": "^0.15.3"
+    "axios": "^0.15.3",
+    "validate.js": "^0.11.1"
   },
   "devDependencies": {
     "chai": "^3.5.0",
