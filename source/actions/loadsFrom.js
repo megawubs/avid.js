@@ -1,5 +1,5 @@
 import {Interaction} from "./interaction";
-import {map} from '../map'
+import {map} from "../map";
 let axios = require('axios');
 export class LoadsFrom extends Interaction {
 

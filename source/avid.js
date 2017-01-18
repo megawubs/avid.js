@@ -5,7 +5,7 @@ import {HasMany} from "./relations/hasMany";
 import {BelongsTo} from "./relations/belongsTo";
 import {InteractsWith} from "./actions/interactsWith";
 import {LoadsFrom} from "./actions/loadsFrom";
-import {validate} from 'validate.js'
+import {validate} from "validate.js";
 
 /**
  * Avid
@@ -157,6 +157,10 @@ export class Avid {
         return {};
     }
 
+    get _actionsValidator() {
+        return {}
+    }
+
     constructor() {
 
         /**
@@ -288,11 +292,19 @@ export class Avid {
      * @param entity
      * @param source
      * @param params
-     * @returns {InteractsWith}
+     * @returns {InteractsWith | Promise}
      */
     interactsWith(entity, source, params = null) {
         //make it possible to omit 'this' when the interaction is with the same object.
-        if (typeof entity === 'string') return new InteractsWith(this, entity, source);
+        if (typeof entity === 'string') {
+            params = source;
+            source = entity;
+            entity = this;
+        }
+        let errors = this.validate(source, params);
+        if (errors) {
+            return Promise.reject(errors);
+        }
         return new InteractsWith(entity, source, params);
     }
 
@@ -332,10 +344,18 @@ export class Avid {
      * @param entity
      * @param source
      * @param params
-     * @returns {LoadsFrom}
+     * @returns {LoadsFrom | Promise}
      */
     loadsFrom(entity, source, params = null) {
-        if (typeof entity === 'string') return new LoadsFrom(this, entity, source);
+        if (typeof entity === 'string') {
+            params = source;
+            source = entity;
+            entity = this;
+        }
+        let errors = this.validate(source, params);
+        if (errors) {
+            return Promise.reject(errors);
+        }
         return new LoadsFrom(entity, source, params);
     }
 
@@ -386,8 +406,33 @@ export class Avid {
         return new ModelProxy(this);
     }
 
-    validate() {
-        return validate(this.properties, this._rules)
+    /**
+     * Validate the request. When no parameters are given
+     * the default validation rules in this._rules are used to
+     * validate this.properties. When both the parameters are given
+     * it is assumed to be an interaction, thus  this._actionsValidator is
+     * used to find a corresponding method name to the resource url, only the last
+     * part in camelCase. For example, when you have the following request:
+     * `[POST] http://my.api.com/v1/user/5/send-post-cart {cart:5, message: 'hello'}`
+     * the method on the validator object returned by this._actionsValidator should be
+     * sendPostCart. This method should return the validate.js object for the parameters.
+     *
+     * @param name
+     * @param values
+     * @returns {*}
+     */
+    validate(name = null, values = null) {
+        if (name === null && values === null) {
+            return validate(this.properties, this._rules)
+        }
+        if (name === null) {
+            return;
+        }
+        name = name.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join('');
+        name = name.charAt(0).toLowerCase() + name.slice(1);
+        if (typeof this._actionsValidator[name] == 'function') {
+            return this._actionsValidator[name](values);
+        }
     }
 
     reset(error) {

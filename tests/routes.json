@@ -2,7 +2,5 @@
   "/api/v1/": "/",
   "/api/v1/:resource": "/:resource",
   "/api/v1/:resource/:id": "/:resource/:id",
-  "/api/v1/:resource/:id/homes": "/:home?id=:id",
-  "/api/v1/user/:id/invite": "/api/v1/user/:id",
-  "/api/v1/:resource/:id/:relations": "/:relations?id=:id"
+  "/api/v1/:resource/:id/rent-to": "/api/v1/:resource/:id"
 }
