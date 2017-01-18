@@ -32,9 +32,9 @@ class Home extends Avid {
 
 class HomeValidator {
 
-    rentTo(attributes) {
+    rentTo() {
         console.info('validating Home.rentTo');
-        return validate(attributes, {
+        return {
             user: {
                 presence: true,
                 numericality: true
@@ -43,14 +43,14 @@ class HomeValidator {
                 presence: true,
                 numericality: true
             }
-        })
+        }
     }
 }
 
 describe('Validator ', () => {
     it('should validate when all attributes are correct ', () => {
         let validator = new HomeValidator();
-        let result = validator.rentTo({user: 1, amount: 650});
+        let result = validate({user: 1, amount: 650}, validator.rentTo());
         assert.isUndefined(result);
     });
 
@@ -63,13 +63,13 @@ describe('Validator ', () => {
                 madeRequest = false;
                 let [home, user] = both;
 
-                return home.rentTo(user, 650)
+                home.rentTo(user, 650)
                     .then(response => {
                         //this should not run
                     }).catch(error => {
-                        assert.equal(madeRequest, false);
-                        assert.property(error, 'user');
-                    });
+                    assert.equal(madeRequest, false);
+                    assert.property(error, 'user');
+                });
             });
     });
 

@@ -431,7 +431,7 @@ export class Avid {
         name = name.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join('');
         name = name.charAt(0).toLowerCase() + name.slice(1);
         if (typeof this._actionsValidator[name] == 'function') {
-            return this._actionsValidator[name](values);
+            return validate(values, this._actionsValidator[name]());
         }
     }
 
