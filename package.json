@@ -1,6 +1,6 @@
 {
   "name": "@megawubs/avid",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.2.1",
   "description": "API consumption on fire, inspired by Laravel's Eloquent",
   "main": "index.js",
   "directories": {
