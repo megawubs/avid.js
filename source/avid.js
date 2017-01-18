@@ -212,17 +212,17 @@ export class Avid {
         let api = new Api(self._resource);
 
         /**
-         * Resolve directly when there are no changes to the model, saving us
-         * an exidental update or save of an unchanged model.
-         */
-
-        if (self.hasChanged === false) return Promise.reject(self);
-
-        /**
          * Validate the model based on validate.js validation rules
          */
         let validation = self.validate();
         if (validation !== undefined) return Promise.reject(validation);
+
+        /**
+         * Resolve directly when there are no changes to the model, saving us
+         * an accidental update or save of an unchanged model.
+         */
+        if (self.hasChanged === false) return Promise.resolve(self);
+
         /**
          * When we do `let model = new Model();` it has no id yet, this way we can
          * check if a model needs to be updated or saved
